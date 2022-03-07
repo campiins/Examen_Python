@@ -72,34 +72,35 @@ def choose_secret_advanced(filename):
       secret: Palabra elegida aleatoriamente de la lista de 15 seleccionadas transformada a mayúsculas
     """
     f = open(filename, mode="rt", encoding="utf-8")
-    # meter palabras en una lista:
     words=[]
     selected=[]
-    lowercase=[] # lista de minúsculas sin tilde
-    for j in range(26):
-      lowercase.append(list(string.ascii_lowercase)[j])
+    tildes=("á","é","í","ó","ú") # no he conseguido filtrar sin tilde
+    # meter palabras en una lista:
     for line in f:
       line = line.lower()
       line=line.split()
       words.extend(line)
     f.close()
     # filtrar palabras
-    for word in range(len(words)):
-      for letter in words[word]:
+    for i in range(len(words)):
         rn_word = random.choice(words)
-        if len(rn_word) == 5 and len(selected) < 15 and letter not in lowercase:
+        if len(rn_word) == 5 and len(selected) < 15 and rn_word not in selected:
           selected.append(rn_word)
-    print(selected)
+    secret = random.choice(selected)
+    secret = secret.upper()
+    return selected, secret
 
-
- 
-def check_valid_word():
+def check_valid_word(selected):
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
     Args:
       selected: Lista de palabras.
     Returns:
       word: Palabra introducida por el usuario que está en la lista.
     """
+    while (1):
+      word = input("Introduce una nueva palabra: ")
+      if word in selected:
+        return word.upper()
 '''
 if __name__ == "__main__":
     secret=choose_secret("palabras_reduced.txt")
@@ -114,5 +115,8 @@ if __name__ == "__main__":
             exit()
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)  
 '''
-choose_secret_advanced("palabras_extended.txt")
+selected,secret = choose_secret_advanced("palabras_extended.txt")
+print(selected)
+adivinada = check_valid_word(selected)
+print(adivinada)
  

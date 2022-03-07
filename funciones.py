@@ -52,4 +52,5 @@ def repartir_cartas(cartas_iniciales,repeticiones):
 
     return combinaciones
 
-    
+clients_list = {}
+add_client(clients_list,"238","Nombre","Direccion","67182","email@gmail.com")
