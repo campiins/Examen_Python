@@ -1,4 +1,5 @@
 import random
+import string
 
 def choose_secret(filename):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
@@ -15,6 +16,7 @@ def choose_secret(filename):
         line=line.split()
         words.extend(line)
     f.close()
+    # elegir palabra aleatoria
     rn_word = random.choice(words)
     word = rn_word.upper()
     return word
@@ -52,12 +54,16 @@ def print_word(word,same_position,same_letter):
     transformed = []
     for i in range(len(word)):
       if i in same_position:
-        transformed.append()
+        transformed.append(word[i])
+      if i in same_letter and i not in same_position:
+        transformed.append(word[i].lower())
+      if i not in same_position and i not in same_letter:
+        transformed.append("-")
     transformed = "".join(transformed)
     return transformed
       
     
-def choose_secret_advanced():
+def choose_secret_advanced(filename):
     """Dado un nombre de fichero, esta función filtra solo las palabras de 5 letras que no tienen acentos (á,é,í,ó,ú). De estas palabras, la función devuelve una lista de 15 aleatorias no repetidas y una de estas 15, se selecciona aleatoriamente como palabra secret.
     Args:
       filename: El nombre del fichero. Ej. "palabras_extended.txt"
@@ -65,6 +71,27 @@ def choose_secret_advanced():
       selected: Lista de 15 palabras aleatorias no repetidas que tienen 5 letras y no tienen acentos
       secret: Palabra elegida aleatoriamente de la lista de 15 seleccionadas transformada a mayúsculas
     """
+    f = open(filename, mode="rt", encoding="utf-8")
+    # meter palabras en una lista:
+    words=[]
+    selected=[]
+    lowercase=[] # lista de minúsculas sin tilde
+    for j in range(26):
+      lowercase.append(list(string.ascii_lowercase)[j])
+    for line in f:
+      line = line.lower()
+      line=line.split()
+      words.extend(line)
+    f.close()
+    # filtrar palabras
+    for word in range(len(words)):
+      for letter in words[word]:
+        rn_word = random.choice(words)
+        if len(rn_word) == 5 and len(selected) < 15 and letter not in lowercase:
+          selected.append(rn_word)
+    print(selected)
+
+
  
 def check_valid_word():
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
@@ -73,7 +100,7 @@ def check_valid_word():
     Returns:
       word: Palabra introducida por el usuario que está en la lista.
     """
-
+'''
 if __name__ == "__main__":
     secret=choose_secret("palabras_reduced.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
@@ -81,11 +108,11 @@ if __name__ == "__main__":
         word = input("Introduce una nueva palabra: ")
         same_position, same_letter = compare_words(word,secret)
         resultado=print_word(word,same_position,same_letter)
-        print(resultado)
-    '''    
+        print(resultado)   
         if word == secret:
             print("HAS GANADO!!")
             exit()
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)  
-    '''
+'''
+choose_secret_advanced("palabras_extended.txt")
  
