@@ -32,15 +32,15 @@ def compare_words(word,secret):
     same_position = []
     same_letter = []
     for l1 in range(len(word)):
-      for l2 in range(len(secret)):
-        if word(l1) == word(l2):
-          same_position.append(l1)
-          same_letter.append(word(l1))
+      if word[l1] == secret[l1]:
+        same_position.append(l1)
+      if word[l1] in secret:
+        same_letter.append(l1)
     return same_position, same_letter
           
 
 
-def print_word(word,same_letter_position,same_letter):
+def print_word(word,same_position,same_letter):
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
     Args:
       word: Una palabra. Ej. "CAMPO"
@@ -49,7 +49,13 @@ def print_word(word,same_letter_position,same_letter):
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
-    
+    transformed = []
+    for i in range(len(word)):
+      if i in same_position:
+        transformed.append()
+    transformed = "".join(transformed)
+    return transformed
+      
     
 def choose_secret_advanced():
     """Dado un nombre de fichero, esta función filtra solo las palabras de 5 letras que no tienen acentos (á,é,í,ó,ú). De estas palabras, la función devuelve una lista de 15 aleatorias no repetidas y una de estas 15, se selecciona aleatoriamente como palabra secret.
@@ -73,10 +79,13 @@ if __name__ == "__main__":
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words()
-        resultado=print_word()
+        same_position, same_letter = compare_words(word,secret)
+        resultado=print_word(word,same_position,same_letter)
         print(resultado)
+    '''    
         if word == secret:
             print("HAS GANADO!!")
             exit()
-    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)  
+    '''
+ 
